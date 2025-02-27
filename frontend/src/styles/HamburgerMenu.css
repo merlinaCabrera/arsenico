@@ -1,30 +1,78 @@
-.hamburger {
-    font-size: 30px;
-    cursor: pointer;
-    position: absolute;
-    top: 20px;
-    right: 20px;
+/* Estilos generales para el contenedor del menú */
+.hamburger-menu {
+    background-color: #022b48;
+    color: #204568;
+    padding: 10px;
+    
   }
   
-  .menu {
+  /* Estilo del encabezado */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px;
+  }
+  
+  /* Ícono de hamburguesa */
+  .hamburger {
     position: absolute;
-    top: 60px;
-    right: 0;
-    background: white;
-    width: 200px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    right: 40px; /* Lo alinea a la derecha */
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 25px;
+    cursor: pointer;
   }
   
-  .menu a {
-    padding: 10px;
+  .hamburger span {
+    display: block;
+    height: 4px;
+    background-color:#204568;
+    border-radius: 2px;
+  }
+  
+  /* Menú de navegación oculto por defecto */
+  .menu {
+    display: none;
+    text-align: center;
+    padding: 10px 20px;
+  }
+  
+  /* Muestra el menú cuando tiene la clase 'active' */
+  .menu.active {
+    display: block;
+  }
+  
+  /* Lista de navegación */
+  .menu ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .menu ul li {
+    margin: 10px 0;
+  }
+  
+  .menu ul li a {
+    color: #204568;
+    font-size: 20px;
+    text-align: left;
     text-decoration: none;
-    color: black;
-    border-bottom: 1px solid #ddd;
   }
   
-  .menu a:hover {
-    background: #f4f4f4;
+  /* Opcional: animación para el ícono de hamburguesa al abrirse */
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
   }
+  
+  .hamburger.open span:nth-child(1) {
+    transform: translateY(20px) rotate(45deg);
+    transform-origin: center;
+  }
+  
+  .hamburger.open span:nth-child(3) {
+    transform: translateY(-1px) rotate(-45deg);
+    transform-origin: center;
+}
   

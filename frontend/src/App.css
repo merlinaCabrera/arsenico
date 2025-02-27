@@ -6,7 +6,15 @@
 .titulo {
   background-color: #022b48;
   color: #204568;
-  padding: 10px;
+  padding: 15px;
+  font-size: 30px;
+  align-items: center;
+}
+
+.intro {
+  background-color: #022b48;
+  color: #204568;
+  font-size: 20px;
   align-items: center;
 }
 .App-header {
@@ -17,7 +25,5 @@
   flex-direction: column;
   align-items: center;
   padding-top: 30px;
-  font-size: 20px;
   color: white;
-  
 }

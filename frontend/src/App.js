@@ -9,18 +9,20 @@ function App() {
     <div className='App'>
       
         <header className='App-header'>
-
-          
-            <HamburgerMenu />
-            <Routes>
-                <Route path="/" element={<Home />} />
-            </Routes>
-                    
+          <HamburgerMenu />
           <h1 className='titulo'> Planta de Tratamiento de Arsénico </h1>
-          <Button />
-
-
-
+          <h1 className='intro'> 
+            Paneles de análisis de datos <br/>  
+          </h1>
+            <p> En el siguiente panel se pueden observar los datos de ORP 
+              captados por el sensor de ORP del agua purificada.</p>
+          <iframe
+            src="http://localhost:4000/d-solo/ae3u0cqlq9hq8c/valor-crudo-orp?orgId=1&from=1731511421771&to=1731512321771&refresh=10s&panelId=1"
+            width="450"
+            height="200"
+            frameBorder="0"
+          ></iframe>
+          
         </header>
     </div>
   );
