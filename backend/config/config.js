@@ -1,7 +1,6 @@
 // config.config.js
 
-`centralización de la configuración del servidor, la URL y el token para
-InfluxDB, y la información de conexión para el broker MQTT`
+// Centralización de la configuración del servidor, URL y token 
 
 module.exports = {
     server: {
