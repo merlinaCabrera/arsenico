@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend  # Ruta al directorio del frontend
+    ports:
+      - "3003:3000"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend  # Ruta al directorio del backend
+    ports:
+      - "5000:5000"
+    environment:
+      - NODE_ENV=production

@@ -1,26 +1,44 @@
 // controllers/influxController.js
 
-// utiliza axios para hacer una solicitud GET a la API REST de InfluxDB
-// la consulta se envía como parámetro y se usa el token para autenticarción
-// respuesta en formato JSON
-
+// axios para solicitud GET a la API REST de InfluxDB
 const axios = require('axios');
 const config = require('../config/config');
 
-// obtener datos de InfluxDB
+// Obtener datos de InfluxDB
 exports.getData = async (req, res) => {
   try {
-    // consulta a InfluxDB
-    const query = 'SELECT * FROM "mediciones" LIMIT 10';
+
+    // Seleccionar últimas 50 mediciones de ORP
+    const query = 'SELECT * FROM "promedio_movil_ORP" ORDER BY time DESC LIMIT 50';
+    
+    // Solicitud GET 
     const response = await axios.get(`${config.influx.url}/query`, {
-      params: { q: query },
+      params: { q: query, db: condig.influx.bucket },
       headers: {
         'Authorization': `Token ${config.influx.token}`
       }
     });
-    res.json(response.data);
+
+    // Procesamiento de respuesta
+    const series = response.data.results[0].series;
+    if (!series) {
+      return res.json({ data: [] });
+    }
+
+    const values = series[0].values;  // Array [time, orp_value]
+
+    // Procesar cada registro. Marcar si ORP > 4
+    const processed = values.map(point => {
+      const [time, orp_value] = point;
+      const alert = orp_value > 4;
+      return { time, orp_value, alert };
+    });
+
+    res.json({ data: processed });
   } catch (error) {
-    console.error('Error al obtener datos de InfluxDB:', error);
+    console.error('Error al consultar datos históricos:', error);
     res.status(500).json({ error: 'Error al consultar InfluxDB' });
   }
+
+  
 };

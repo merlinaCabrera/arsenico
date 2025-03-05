@@ -5,8 +5,8 @@ ESP8266WiFiMulti wifiMulti;
 #include <InfluxDbCloud.h>
 #include <Ticker.h>
 
-const char* WIFI_SSID = "Ubiquiti LEICI"; // Fibertel WiFi565 2.4GHz        Ubiquiti LEICI
-const char* WIFI_PASSWORD = "leicidefiunlp"; // 0142785516                     leicidefiunlp
+const char* WIFI_SSID = "Ubiquiti LEICI";     // Fibertel WiFi565 2.4GHz        Ubiquiti LEICI
+const char* WIFI_PASSWORD = "leicidefiunlp";  // 0142785516                     leicidefiunlp
 
 #define INFLUXDB_URL "https://influxdb.gecep.ar"
 #define INFLUXDB_TOKEN "hw7oYzqkJlQbW2gW2b4BTQk7OH6Kf239lmrvX25owHtZcYMGMXa33s1y7nCLKmUZXqQ0QXL3XCONyKhvtbZWXw=="
@@ -19,7 +19,7 @@ const char* WIFI_PASSWORD = "leicidefiunlp"; // 0142785516                     l
 #define LED_PIN 2             // Pin del LED interno del ESP8266 
 #define ANALOG_PIN A0         // Pin analógico
 
-// Declare InfluxDB client instance with preconfigured InfluxCloud certificate
+// Declaración de cliente
 InfluxDBClient client(INFLUXDB_URL, INFLUXDB_ORG, INFLUXDB_BUCKET, INFLUXDB_TOKEN, InfluxDbCloud2CACert);
 
 // Variables
@@ -126,7 +126,7 @@ void readAnalogSignal() {
 }
 
 void setup() {
-  Serial.begin(115200);          // Comunicación serie
+  Serial.begin(115200); // Comunicación serie
   // Setup wifi
   WiFi.mode(WIFI_STA);
   wifiMulti.addAP(WIFI_SSID, WIFI_PASSWORD);
@@ -137,10 +137,9 @@ void setup() {
     delay(100);
   }
 
-  // Accurate time is necessary for certificate validation and writing in batches
   timeSync(TZ_INFO, "pool.ntp.org", "time.nis.gov");
 
-  // Check server connection
+  // Chequeo de conexión 
   if (client.validateConnection()) {
     Serial.print("Connected to InfluxDB: ");
     Serial.println(client.getServerUrl());
@@ -151,16 +150,16 @@ void setup() {
 
   Serial.print("\n\n\n");
 
-  pinMode(LED_PIN, OUTPUT);      // Pin del LED interno como salida
-  pinMode(LED_PIN_VERDE, OUTPUT); // Pin del LED verde como salida
-  pinMode(LED_PIN_AMARILLO, OUTPUT); // Pin del LED amarillo como salida
+  pinMode(LED_PIN, OUTPUT);           // Pin del LED interno como salida
+  pinMode(LED_PIN_VERDE, OUTPUT);     // Pin del LED verde como salida
+  pinMode(LED_PIN_AMARILLO, OUTPUT);  // Pin del LED amarillo como salida
 
   // Inicializar el array de lecturas en 0
   for (int i = 0; i < totalReads; i++) {
     orpValues[i] = 0;
   }
 
-  // Configura el temporizador para llamar a la función cada 5 segundos
+  // Configurar el temporizador para llamar a la función cada 5 segundos
   timer.attach(5, readAnalogSignal);
 }
 

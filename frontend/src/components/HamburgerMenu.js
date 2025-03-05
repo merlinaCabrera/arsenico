@@ -20,7 +20,8 @@ function HamburgerMenu() {
                 <nav className={`menu ${isOpen ? 'active' : ''}`}>
                     <ul>
                         <li><a href="Inicio">Inicio</a></li>
-                        <li><a href="Histórico">Histórico</a></li>
+                        <li><a href="Alertas">Alertas</a></li>
+                        <li><a href="Contexto">Contexto</a></li>
                     </ul>
                 </nav>
             </div>
