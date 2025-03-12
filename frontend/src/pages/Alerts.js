@@ -1,5 +1,7 @@
 // src/pages/Alerts.js
+
 import React from 'react';
+import AlertORP from '../components/AlertORP';
 
 function Alerts() {
   return (
@@ -8,6 +10,9 @@ function Alerts() {
         <h1 className="intro">
           Alertas de Sensores <br />
         </h1>
+
+        <AlertORP/>
+        
       </header>
     </div>
   );

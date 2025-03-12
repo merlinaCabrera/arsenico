@@ -1,49 +1,43 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from "react";
 
-const AlertORP = () => {
-  const [alertas, setAlertas] = useState([]);
+// se usa fetch() para llamar al endpoint (http://localhost:3500/api/obtener-datos)
 
-  const fetchData = async () => {
-    try {
-
-      // Se hace la solicitud GET a la API REST del backend
-      const response = await axios.get('http://localhost:3000/api/influx/historical');
-      
-      // Respuesta en formato JSON
-      const datos = response.data.data;
-
-      // Filtrar los datos donde la alerta está activa (orp_value > 4)
-      const alerts = datos.filter(item => item.alert === true);
-      setAlertas(alerts);
-    } catch (error) {
-      console.error("Error al obtener alertas:", error);
-    }
-  };
+function AlertasORP() {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchData();
-
-    // Actualizar continuamente
-    const interval = setInterval(fetchData, 10000); // Actualiza cada 10 segundos
-    return () => clearInterval(interval);
+    fetch("http://localhost:3502/api/orp-data") // Ajusta el endpoint si es necesario
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la respuesta del servidor");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error.message);
+        setLoading(false);
+      });
   }, []);
+
+  if (loading) return <p>Cargando datos...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div>
-      {alertas.length === 0 ? (
-        <p>No hay alertas</p>
-      ) : (
-        <ul>
-          {alertas.map((alerta, index) => (
-            <li key={index}>
-              Alerta: Valor ORP {alerta.orp_value} registrado a las {alerta.time}
-            </li>
-          ))}
-        </ul>
-      )}
+      <h2>Alertas de ORP</h2>
+      {Object.entries(data.alerts).map(([sensor, alert]) => (
+        <div key={sensor} style={{ color: alert ? "red" : "green" }}>
+          {sensor}: {alert ? "⚠️ Alerta Activa" : "✅ Todo OK"}
+        </div>
+      ))}
     </div>
   );
-};
+}
 
-export default AlertORP;
+export default AlertasORP;
