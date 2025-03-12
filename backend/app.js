@@ -1,26 +1,16 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const cors = require('cors');
+const config = require('./config/config');
+const influxRouter = require('./routes/influx'); // donde definiste la ruta sensor1-latest
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-
-// ruta para InfluxDB
-var influxRouter = require('./routes/influx');
-
-var app = express();
-
-app.use(logger('dev'));
+const app = express();
+app.use(cors());
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-
-// montar ruta
+// Montar rutas
 app.use('/api/influx', influxRouter);
 
-module.exports = app;
+const PORT = config.server.port || 5000;
+app.listen(PORT, () => {
+  console.log(`Servidor corriendo en http://localhost:${PORT}`);
+});

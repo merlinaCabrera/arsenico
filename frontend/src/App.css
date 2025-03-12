@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  
+
 }
 
 .titulo {
@@ -17,6 +17,16 @@
   font-size: 20px;
   align-items: center;
 }
+
+.parrafo {
+  background-color: #022b48;
+  color: #204568;
+  font-size: 20px;
+  align-items: center;
+  line-height: 1.5;
+  text-align: justify;
+}
+
 .App-header {
   background-color: #022b48;
   color: #204568;
@@ -26,4 +36,17 @@
   align-items: center;
   padding-top: 30px;
   color: white;
+
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 30px;
+}
+
+iframe {
+  width: 100%; /* Ocupará todo el ancho disponible */
+  max-width: 1200px; /* No superará los 800px */
+  height: 300px; /* Puedes ajustar la altura según necesites */
+  border: 1px solid #ccc; /* Opcional, para dar un borde sutil */
+  display: block; /* Asegura que no haya espacios extra */
+  margin: 0 auto; /* Centra el iframe horizontalmente */
 }
