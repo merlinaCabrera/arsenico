@@ -21,28 +21,24 @@ Asegúrate de tener instalados los siguientes componentes en tu sistema:
 - 🛠️ **Docker Compose** → [Guía de instalación](https://docs.docker.com/compose/install/)  
 
 ## 🏗️ Pasos para el Despliegue Local  
-
-### 1️⃣ Clonar el repositorio  
 ```bash
+# 1️⃣ Clonar el repositorio  
 git clone https://github.com/merlinaCabrera/arsenico.git
 cd arsenico
 
-### 2️⃣ Construir y levantar los contenedores
-```bash
+# 2️⃣ Construir y levantar los contenedores
 docker-compose up --build
 
-### 3️⃣ Acceder a la aplicación
-Una vez en ejecución, abre tu navegador y accede a:
+# 3️⃣ Acceder a la aplicación
+# Una vez en ejecución, abre tu navegador y accede a:
 http://localhost:3000
 
-### 4️⃣ Detener la aplicación
-Para apagar los contenedores, ejecuta:
-```bash
+# 4️⃣ Detener la aplicación
+# Para apagar los contenedores, ejecuta:
 docker-compose down
 
 
-### ⚠️ Solución a Problemas Comunes
-Si los cambios recientes no se reflejan en la aplicación, intenta reconstruir sin caché:
-```bash
+# ⚠️ Solución a Problemas Comunes
+# Si los cambios recientes no se reflejan en la aplicación, intenta reconstruir sin caché:
 docker-compose build --no-cache
 docker-compose up
