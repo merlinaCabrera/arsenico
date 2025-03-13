@@ -1,4 +1,4 @@
-# 🏭 Arsénico: Monitoreo y Control Remoto en Planta de Tratamiento  
+# 🏭 Monitoreo y Control Remoto en Planta de Tratamiento  
 
 ## 📌 Descripción del Proyecto  
 Este sistema embebido permite el monitoreo y control remoto de los parámetros involucrados en el proceso de remoción de arsénico en una planta de tratamiento de agua ubicada en **Pipinas**.  
