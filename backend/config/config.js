@@ -2,7 +2,7 @@
 
 module.exports = {
   server: {
-    port: process.env.PORT || 3502
+    port: process.env.PORT || 3500
   },
   influx: {
     url: process.env.INFLUX_URL || "https://influxdb.gecep.ing.unlp.edu.ar", // URL de InfluxDB

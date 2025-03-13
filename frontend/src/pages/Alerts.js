@@ -10,7 +10,7 @@ function Alerts() {
         <h1 className="intro">
           Alertas de Sensores <br />
         </h1>
-
+<br/>
         <AlertORP/>
         
       </header>

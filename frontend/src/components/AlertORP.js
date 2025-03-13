@@ -1,6 +1,5 @@
+// frontend/components/AlertORP.js
 import { useEffect, useState } from "react";
-
-// se usa fetch() para llamar al endpoint (http://localhost:3500/api/obtener-datos)
 
 function AlertasORP() {
   const [data, setData] = useState(null);
@@ -8,7 +7,7 @@ function AlertasORP() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:3502/api/orp-data") // Ajusta el endpoint si es necesario
+    fetch("http://localhost:3500/api/influx/orp-data")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Error en la respuesta del servidor");
@@ -16,10 +15,12 @@ function AlertasORP() {
         return response.json();
       })
       .then((data) => {
+        console.log("Data recibida:", data); // Debug: verificar estructura en consola
         setData(data);
         setLoading(false);
       })
       .catch((error) => {
+        console.error("Error en fetch:", error);
         setError(error.message);
         setLoading(false);
       });
@@ -30,10 +31,20 @@ function AlertasORP() {
 
   return (
     <div>
-      <h2>Alertas de ORP</h2>
-      {Object.entries(data.alerts).map(([sensor, alert]) => (
-        <div key={sensor} style={{ color: alert ? "red" : "green" }}>
-          {sensor}: {alert ? "⚠️ Alerta Activa" : "✅ Todo OK"}
+      {data.alerts && Object.entries(data.alerts).map(([sensor, alertData]) => (
+        <div key={sensor} style={{ marginBottom: "20px" }}>
+          <h3>Alertas {sensor}</h3>
+          {alertData && alertData.length > 0 ? (
+            <ul>
+              {alertData.map((item, index) => (
+                <li key={index}>
+                  ⚠️ ORP: {item.orp_value} mV - Tomado el: {new Date(item.time).toLocaleString()}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p style={{ color: "green" }}>No hay alertas</p>
+          )}
         </div>
       ))}
     </div>

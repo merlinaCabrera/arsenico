@@ -8,10 +8,10 @@ const influxDB = new InfluxDB({ url: config.influx.url, token: config.influx.tok
 const queryApi = influxDB.getQueryApi(org);
 
 exports.getORPData = async (req, res) => {
-  // Flux query: obtenemos datos de los últimos 12 horas, agrupados por sensor_id, limitando a 20 puntos por sensor
+  // Flux query: obtenemos datos, agrupados por sensor_id, limitando a 20 puntos por sensor
   const fluxQuery = `
     from(bucket: "ORP sensor simulation")
-      |> range(start: -24h)
+      |> range(start: -100h)
       |> filter(fn: (r) => r._measurement == "promedio_movil_ORP")
       |> filter(fn: (r) => r._field == "orp_value")
       |> group(columns: ["sensor_id"])
@@ -22,13 +22,12 @@ exports.getORPData = async (req, res) => {
   let resultsBySensor = {};
 
   try {
-    // Envolvemos queryRows en una Promise para usar async/await
     await new Promise((resolve, reject) => {
       queryApi.queryRows(fluxQuery, {
         next: (row, tableMeta) => {
           const o = tableMeta.toObject(row);
           const sensorId = o.sensor_id;
-          // Inicializa el arreglo para el sensor si aún no existe
+          // Inicializamos el arreglo para el sensor si aún no existe
           if (!resultsBySensor[sensorId]) {
             resultsBySensor[sensorId] = [];
           }
@@ -47,14 +46,15 @@ exports.getORPData = async (req, res) => {
       });
     });
 
-    // Para cada sensor, evaluamos si alguno de sus puntos supera los 600 mV
+    // Para cada sensor, recopilamos los datos que generan alerta (orp_value > 600)
     const sensorAlerts = {};
     for (const sensorId in resultsBySensor) {
       const sensorData = resultsBySensor[sensorId];
-      sensorAlerts[sensorId] = sensorData.some(data => data.orp_value > 600);
+      // Filtramos los puntos que superen 600 mV
+      sensorAlerts[sensorId] = sensorData.filter(data => data.orp_value > 695);
     }
 
-    // Retornamos la respuesta con los datos agrupados y el estado de alerta por sensor
+    // Retornamos la respuesta con los datos y las alertas por sensor
     res.json({ data: resultsBySensor, alerts: sensorAlerts });
   } catch (error) {
     console.error('Error en getORPData:', error);

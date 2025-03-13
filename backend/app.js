@@ -17,11 +17,3 @@ app.listen(PORT, () => {
   console.log(`Servidor corriendo en http://localhost:${PORT}`);
 });
 
-app.get("/api/orp-data", (req, res) => {
-  res.json({
-    alerts: {
-      sensor1: true,
-      sensor2: false,
-    },
-  });
-});
