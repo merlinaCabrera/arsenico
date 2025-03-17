@@ -10,10 +10,11 @@ module.exports = {
     org: process.env.INFLUX_ORG || "arsénico"
   },
   mqtt: {
-    brokerUrl: process.env.MQTT_BROKER_URL || "mqtts://mqtt-broker.com",
+    brokerUrl: "mqtt://localhost:1883",  // Asegúrate de que no diga "mqtts" ni tenga otro puerto
     options: {
-      username: process.env.MQTT_USER || "usuario",
-      password: process.env.MQTT_PASSWORD || "password"
+      username: "usuario",   // Si no usas autenticación, elimina estas líneas
+      password: "Olivia1602"
     }
   }
+
 };

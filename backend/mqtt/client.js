@@ -1,19 +1,10 @@
-// mqtt/client.js
-
-//  A FUTURO
-
-// Conexión con broker MQTT utilizando config/config.js
-// El cliente se conecta de forma segura y está listo para enviar o recibir msj
-
 const mqtt = require('mqtt');
 const config = require('../config/config');
 
-const client  = mqtt.connect(config.mqtt.brokerUrl, config.mqtt.options);
+const client = mqtt.connect(config.mqtt.brokerUrl, config.mqtt.options);
 
 client.on('connect', () => {
   console.log('Conectado al broker MQTT');
-  // suscripción a tópicos, por ejemplo:
-  // client.subscribe('comandos/mcu', (err) => { ... });
 });
 
 client.on('error', (err) => {

@@ -1,10 +1,8 @@
-// routes/influx.js
-
 const express = require('express');
 const router = express.Router();
 const influxController = require('../controllers/influxController');
 
-// Ruta para obtener datos ORP y alertas de cada sensor
+// Define la ruta para obtener datos ORP y alertas
 router.get('/orp-data', influxController.getORPData);
 
 module.exports = router;

@@ -2,13 +2,13 @@
 
 const { InfluxDB } = require('@influxdata/influxdb-client');
 const config = require('../config/config');
+const mqttClient = require('../mqtt/client'); // Asegúrate de requerir el cliente MQTT
 
 const org = config.influx.org;
 const influxDB = new InfluxDB({ url: config.influx.url, token: config.influx.token });
 const queryApi = influxDB.getQueryApi(org);
 
 exports.getORPData = async (req, res) => {
-  // Flux query: obtenemos datos, agrupados por sensor_id, limitando a 20 puntos por sensor
   const fluxQuery = `
     from(bucket: "ORP sensor simulation")
       |> range(start: -100h)
@@ -27,7 +27,6 @@ exports.getORPData = async (req, res) => {
         next: (row, tableMeta) => {
           const o = tableMeta.toObject(row);
           const sensorId = o.sensor_id;
-          // Inicializamos el arreglo para el sensor si aún no existe
           if (!resultsBySensor[sensorId]) {
             resultsBySensor[sensorId] = [];
           }
@@ -46,15 +45,29 @@ exports.getORPData = async (req, res) => {
       });
     });
 
-    // Para cada sensor, recopilamos los datos que generan alerta (orp_value > 600)
     const sensorAlerts = {};
     for (const sensorId in resultsBySensor) {
       const sensorData = resultsBySensor[sensorId];
-      // Filtramos los puntos que superen 600 mV
-      sensorAlerts[sensorId] = sensorData.filter(data => data.orp_value > 695);
+      // Filtrar los puntos que superen el umbral (por ejemplo, 695 mV)
+      const alerts = sensorData.filter(data => data.orp_value > 695);
+      sensorAlerts[sensorId] = alerts;
+      
+      // Si hay alertas para el sensor, publica un mensaje MQTT
+      if (alerts.length > 0) {
+        const alertMessage = {
+          sensor: sensorId,
+          alerts: alerts
+        };
+        mqttClient.publish('alertas/orp', JSON.stringify(alertMessage), { qos: 1 }, (err) => {
+          if (err) {
+            console.error("Error enviando alerta MQTT:", err);
+          } else {
+            console.log(`Alerta publicada para sensor ${sensorId}`);
+          }
+        });
+      }
     }
 
-    // Retornamos la respuesta con los datos y las alertas por sensor
     res.json({ data: resultsBySensor, alerts: sensorAlerts });
   } catch (error) {
     console.error('Error en getORPData:', error);
