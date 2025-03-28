@@ -38,7 +38,7 @@ void loop() {
   for (int i = 0; i < stepsPerRev; i++) {
     stepMotor();
   }
-  delay(1000); // Pausa de 1 segundo
+  delay(10000); // Pausa de 1 segundo
 
   // Inversión de la dirección
   digitalWrite(DIR_PIN, LOW);
@@ -46,7 +46,7 @@ void loop() {
   for (int i = 0; i < stepsPerRev; i++) {
     stepMotor();
   }
-  delay(1000); // Pausa de 1 segundo
+  delay(10000); // Pausa de 1 segundo
 }
 
 // Función que genera un pulso de paso
