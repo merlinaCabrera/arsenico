@@ -2,7 +2,6 @@
 
 const { InfluxDB } = require('@influxdata/influxdb-client');
 const config = require('../config/config');
-const mqttClient = require('../mqtt/client'); // Asegúrate de requerir el cliente MQTT
 
 const org = config.influx.org;
 const influxDB = new InfluxDB({ url: config.influx.url, token: config.influx.token });
@@ -52,20 +51,16 @@ exports.getORPData = async (req, res) => {
       const alerts = sensorData.filter(data => data.orp_value > 695);
       sensorAlerts[sensorId] = alerts;
       
-      // Si hay alertas para el sensor, publica un mensaje MQTT
-      if (alerts.length > 0) {
-        const alertMessage = {
-          sensor: sensorId,
-          alerts: alerts
-        };
-        mqttClient.publish('alertas/orp', JSON.stringify(alertMessage), { qos: 1 }, (err) => {
-          if (err) {
-            console.error("Error enviando alerta MQTT:", err);
-          } else {
-            console.log(`Alerta publicada para sensor ${sensorId}`);
-          }
-        });
-      }
+   if (alerts.length > 0 && global.wsBroadcast) {
+  const alertMessage = {
+    sensor: sensorId,
+    alerts: alerts
+  };
+  global.wsBroadcast(JSON.stringify(alertMessage));
+  console.log(`Alerta enviada via WebSocket para sensor ${sensorId}`);
+}
+
+
     }
 
     res.json({ data: resultsBySensor, alerts: sensorAlerts });
