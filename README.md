@@ -7,7 +7,7 @@ Este sistema embebido permite el monitoreo y control remoto de los parámetros i
 
 - **🔌 Hardware:** Diseño de PCB desarrollado en etapas previas del proyecto, PCB actualizada y firmware basado en **Arduino para ESP8266**.  
 - **📡 Backend:** Recuperación de datos desde **InfluxDB** mediante solicitudes `GET` a su API, procesamiento de información y conexión con el frontend. 
-Se evalúa la integración futura entre el backend y el MCU mediante **MQTT**.  
+Integración del backend con el MCU mediante **Web Sockets**.  
 - **🖥️ Frontend:** Interfaz visual de la aplicación web, interacción con **Grafana** y comunicación con el backend.  
 - **📄 Documentación:** Registro detallado del desarrollo del proyecto (2024 - 2025).  
 
