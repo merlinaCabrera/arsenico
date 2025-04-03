@@ -5,7 +5,7 @@ Este sistema embebido permite el monitoreo y control remoto de los parámetros i
 
 ### 🛠️ Componentes del Proyecto  
 
-- **🔌 Hardware:** Diseño de PCB desarrollado en etapas previas del proyecto, PCB actualizada y firmware basado en **Arduino para ESP8266**.  
+- **🔌 Firmware:**: Firmware basado en **Arduino para ESP8266**, modularizado en distintas etapas.
 - **📡 Backend:** Recuperación de datos desde **InfluxDB** mediante solicitudes `GET` a su API, procesamiento de información y conexión con el frontend. 
 Integración del backend con el MCU mediante **Web Sockets**.  
 - **🖥️ Frontend:** Interfaz visual de la aplicación web, interacción con **Grafana** y comunicación con el backend.  
