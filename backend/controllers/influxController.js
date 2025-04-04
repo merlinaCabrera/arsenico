@@ -10,7 +10,7 @@ const queryApi = influxDB.getQueryApi(org);
 exports.getORPData = async (req, res) => {
   const fluxQuery = `
     from(bucket: "ORP sensor simulation")
-      |> range(start: -100h)
+      |> range(start: -1)
       |> filter(fn: (r) => r._measurement == "promedio_movil_ORP")
       |> filter(fn: (r) => r._field == "orp_value")
       |> group(columns: ["sensor_id"])
@@ -47,7 +47,7 @@ exports.getORPData = async (req, res) => {
     const sensorAlerts = {};
     for (const sensorId in resultsBySensor) {
       const sensorData = resultsBySensor[sensorId];
-      // Filtrar los puntos que superen el umbral (por ejemplo, 695 mV)
+      // Filtrar los puntos que superen el umbral (por ejemplo, 650 mV)
       const alerts = sensorData.filter(data => data.orp_value > 695);
       sensorAlerts[sensorId] = alerts;
       
