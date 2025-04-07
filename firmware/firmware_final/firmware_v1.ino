@@ -22,7 +22,6 @@ const char* WIFI_PASSWORD = "0142785516";
 InfluxDBClient influxClient(INFLUXDB_URL, INFLUXDB_ORG, INFLUXDB_BUCKET, INFLUXDB_TOKEN, InfluxDbCloud2CACert);
 
 // --- Simulación de datos ORP ---
-// Ticker para disparar el envío de datos simulados cada 5 segundos
 Ticker timer;
 volatile bool sendDataFlag = false;
 void timerCallback() {
@@ -128,3 +127,5 @@ void loop() {
     delay(100);
   }
 }
+
+
